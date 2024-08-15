@@ -1,5 +1,5 @@
 import './App.css';
-import Otppage from './Components/Pages/otppage';
+import Otppage from './Pages/otppage';
 function App() {
   return (
     <div className="App">

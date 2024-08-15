@@ -1,8 +1,8 @@
 import * as React from 'react';
-import CollapsibleTable from '../Table/table';
+import CollapsibleTable from '../Components/Table/table';
 import './otppage.css';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, FormControlLabel, Checkbox, IconButton, SelectChangeEvent } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Stack from '@mui/material/Stack';
 import { green } from '@mui/material/colors';
@@ -10,22 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
-
-interface RowData {
-  id: number;
-  description: string;
-  isactive: boolean;
-  type: number | string;
-}
-
-function createData(
-  id: number,  
-  description: string,
-  isactive: boolean,
-  type: number | string,
-): RowData {
-  return { id, description, isactive, type };
-}
+import { RowData} from '../Types/RowDataType';
 
 const Otppage = () => {
   const [open, setOpen] = useState(false);
@@ -35,6 +20,24 @@ const Otppage = () => {
   const [rows, setRows] = useState<RowData[]>([]);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [rowToDelete, setRowToDelete] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://10.25.25.6:3000/otp-method/get_list?skip=0&limit=10');
+        const data = await response.json();
+        setRows(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleOnSave = (id: number, updatedRow: RowData) => {
+    setRows(rows.map(row => (row.id === id ? updatedRow : row)));
+  };
 
   const handleDelete = (id: number) => {
     const updatedRows = rows.filter(row => row.id !== id);
@@ -51,16 +54,31 @@ const Otppage = () => {
 
   const handleClose = () => {
     setOpen(false);
+    resetForm();
   };
 
   const handleSave = () => {
     const newId = rows.length + 1;
-    const newRow = createData(newId, description, isActive, type);
+    const newRow: RowData = {
+      id: newId,
+      name: description,
+      channelID: 1, 
+      tokenIdentityParams: 'phone,personalID', 
+      expireTimeMinute: 3, 
+      checkVerifyTryCount: 5, 
+      generateLimitQuantity: 4, 
+      generateLimitTimeMinute: 1, 
+      isSendSms: isActive,
+      smsProductID: '164', 
+      tokenLength: 4, 
+      generateLimitWithoutQuantityTimeSecond: 30, 
+      tokenStringTypeID: typeof type === 'number' ? type : 1,
+      smsTemplate: 'Your OTP code is {{otpCode}}', 
+    };
+
     setRows([...rows, newRow]);
     setOpen(false);
-    setDescription('');
-    setIsActive(false);
-    setType('');
+    resetForm();
   };
 
   const handleConfirmOpen = (id: number) => {
@@ -81,6 +99,12 @@ const Otppage = () => {
     setRowToDelete(null);
   };
 
+  const resetForm = () => {
+    setDescription('');
+    setIsActive(false);
+    setType('');
+  };
+
   return (
     <div>
       <header>
@@ -91,7 +115,7 @@ const Otppage = () => {
           </IconButton>
         </Stack>
       </header>
-      <CollapsibleTable rows={rows} onDelete={handleConfirmOpen} />
+      <CollapsibleTable rows={rows} onDelete={handleConfirmOpen} onSave={handleOnSave} />
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add New OTP</DialogTitle>
         <DialogContent>
@@ -113,8 +137,8 @@ const Otppage = () => {
               label="Type"
               onChange={handleTypeChange}
             >
-              <MenuItem value='Number'>Number</MenuItem>
-              <MenuItem value='String'>String</MenuItem>
+              <MenuItem value={1}>Number</MenuItem>
+              <MenuItem value={2}>String</MenuItem>
             </Select>
           </FormControl>
           <FormControlLabel

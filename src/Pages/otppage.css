@@ -8,3 +8,9 @@ header{
 .MuiStack-root{
     cursor: pointer;
 }
+.css-11xur9t-MuiPaper-root-MuiTableContainer-root{
+    margin: 2em;
+    width: auto !important;
+    background-color: #0ee9303b !important;
+}
+
