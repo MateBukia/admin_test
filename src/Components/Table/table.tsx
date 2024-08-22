@@ -16,7 +16,7 @@ interface CollapsibleTableProps {
 }
 
 export default function CollapsibleTable({ rows, onDelete, onSave }: CollapsibleTableProps) {
-  const selectedKeys = ['id', 'name', 'tokenIdentityParams'];
+  const selectedKeys = ['name', 'tokenIdentityParams'];
 
   return (
     <TableContainer component={Paper}>
