@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CollapsibleTable from '../Components/Table/table';
 import './otppage.css';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Box, IconButton, Stack, Snackbar, Alert } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, IconButton, Stack, Snackbar, Alert } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { green } from '@mui/material/colors';
 import { RowData } from '../Types/RowDataType';
@@ -22,6 +22,7 @@ const Otppage = () => {
 
   const handleOnSave = (id: number, updatedRow: RowData) => {
     setRows(rows.map(row => (row.id === id ? updatedRow : row)));
+    setSuccessMessage('OTP method updated successfully');
   };
 
   const handleDelete = (id: number) => {
@@ -74,7 +75,7 @@ const Otppage = () => {
       </Snackbar>
 
       <Snackbar
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={!!errorMessage}
         autoHideDuration={6000}
         onClose={() => setErrorMessage(null)}
@@ -89,14 +90,20 @@ const Otppage = () => {
       </Snackbar>
 
       <header>
-        <h1>დაამატეთ OTP</h1>
+        <h1>ADD OTP</h1>
         <Stack direction="row" spacing={3}>
           <IconButton onClick={handleClickOpen}>
             <AddCircleIcon sx={{ color: green[500], fontSize: 40 }} />
           </IconButton>
         </Stack>
       </header>
-      <CollapsibleTable rows={rows} onDelete={handleConfirmOpen} onSave={handleOnSave} />
+      <CollapsibleTable 
+        rows={rows} 
+        onDelete={handleConfirmOpen} 
+        onSave={handleOnSave} 
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
       <CreateNewOtp
         open={open}
         onClose={handleClose}

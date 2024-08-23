@@ -8,7 +8,7 @@ export interface RowData {
     generateLimitQuantity: number;
     generateLimitTimeMinute: number;
     isSendSms: boolean;
-    smsProductID: string;
+    smsProductID: number;
     tokenLength: number;
     generateLimitWithoutQuantityTimeSecond: number;
     tokenStringTypeID: number;

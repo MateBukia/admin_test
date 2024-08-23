@@ -13,9 +13,11 @@ interface CollapsibleTableProps {
   rows: RowData[];
   onDelete: (id: number) => void;
   onSave: (id: number, updatedRow: RowData) => void;
+  setSuccessMessage: React.Dispatch<React.SetStateAction<string | null>>;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export default function CollapsibleTable({ rows, onDelete, onSave }: CollapsibleTableProps) {
+export default function CollapsibleTable({ rows, onDelete, onSave, setSuccessMessage, setErrorMessage }: CollapsibleTableProps) {
   const selectedKeys = ['name', 'tokenIdentityParams'];
 
   return (
@@ -32,7 +34,13 @@ export default function CollapsibleTable({ rows, onDelete, onSave }: Collapsible
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <CollapsibleRow key={row.id} row={row} onDelete={onDelete} onSave={onSave} />
+            <CollapsibleRow key={row.id} 
+            row={row} 
+            onDelete={onDelete} 
+            onSave={onSave} 
+            setSuccessMessage={setSuccessMessage}
+            setErrorMessage={setErrorMessage} 
+            />
           ))}
         </TableBody>
       </Table>
