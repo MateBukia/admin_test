@@ -13,6 +13,7 @@ import { RowData } from '../../Types/RowDataType';
 import useGetTokenTypeList from '../../Hooks/GetTokenTypeList';
 import useGetChannelList from '../../Hooks/GetChannelList';
 import useUpdateOtp from '../../Hooks/UpdateOtpMethod';
+import validateFields from '../../Hooks/ValidateFields'
 
 interface CollapsibleRowProps {
   row: RowData;
@@ -64,20 +65,19 @@ export default function CollapsibleRow({
     setEditing(false);
   };
 
-  const validateField = (key: keyof RowData, value: any): string | null => {
-    switch (key) {
-      case 'tokenLength':
-        if (value < 1) {
-          return 'Token length must be at least 1';
-        }
-        if (!Number.isInteger(Number(value))) {
-          return 'Token length must be an integer';
-        }
-        break;
-      // Add more validation cases as needed
-    }
-    return null;
-  };
+  // const validateField = (key: keyof RowData, value: any): string | null => {
+  //   switch (key) {
+  //     case 'tokenLength':
+  //       if (value < 1) {
+  //         return 'Token length must be at least 1';
+  //       }
+  //       if (!Number.isInteger(Number(value))) {
+  //         return 'Token length must be an integer';
+  //       }
+  //       break;
+  //   }
+  //   return null;
+  // };
 
   const handleValueChange = (key: keyof RowData, value: any) => {
     switch (key) {
@@ -108,7 +108,7 @@ export default function CollapsibleRow({
         break;
     }
 
-    const error = validateField(key, value);
+    const error = validateFields(key, value);
     setErrors({ ...errors, [key as string]: error });
     setEditedRow({ ...editedRow, [key as string]: value });
   };
