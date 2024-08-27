@@ -10,11 +10,11 @@ import { RowData } from "../Types/RowDataType";
               return 'Token length must be an integer';
             }
             break;
-          case 'description':
-            if (value === '') {
-              return 'Name is required';
-            }
-            break;
+          case 'name':
+            if (value.trim() === '') {
+                return 'Name is required';
+              }
+              break;
           case 'tokenIdentityParams':
             if (value === '') {
               return 'Token Identity Params is required';
@@ -64,7 +64,10 @@ import { RowData } from "../Types/RowDataType";
             if (value === '') {
               return 'SMS Template is required';
             }
-            break;
+            if (!value.includes('{{otpCode}}')) {
+                return 'SMS Template must contain "{{otpCode}}"';
+              }
+              break;
           case 'tokenStringTypeID':
             if (value === undefined || value === null) {
               return 'TokenStringTypeID is required';

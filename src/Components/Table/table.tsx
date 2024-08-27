@@ -27,9 +27,21 @@ export default function CollapsibleTable({ rows, onDelete, onSave, setSuccessMes
           <TableRow>
             <TableCell />
             {selectedKeys.map((key) => (
-              <TableCell key={key}>{key}</TableCell>
+              <TableCell 
+              key={key}
+              sx={{
+                fontWeight: 'bold',
+                fontSize: '20px',
+                textTransform: 'uppercase',
+              }}>{key}</TableCell>
             ))}
-            <TableCell>Actions</TableCell>
+            <TableCell
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '20px',
+              textTransform: 'uppercase',
+            }}
+            >Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

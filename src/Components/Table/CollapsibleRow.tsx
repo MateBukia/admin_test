@@ -63,21 +63,9 @@ export default function CollapsibleRow({
   const handleCancelClick = () => {
     setEditedRow(row);
     setEditing(false);
+    setErrors({});
   };
 
-  // const validateField = (key: keyof RowData, value: any): string | null => {
-  //   switch (key) {
-  //     case 'tokenLength':
-  //       if (value < 1) {
-  //         return 'Token length must be at least 1';
-  //       }
-  //       if (!Number.isInteger(Number(value))) {
-  //         return 'Token length must be an integer';
-  //       }
-  //       break;
-  //   }
-  //   return null;
-  // };
 
   const handleValueChange = (key: keyof RowData, value: any) => {
     switch (key) {
@@ -211,6 +199,7 @@ export default function CollapsibleRow({
                             onChange={(e) => handleValueChange(key as keyof RowData, e.target.value)}
                             label="Channel ID"
                             sx={{ backgroundColor: 'white', borderColor: '#1976d2' }}
+                            error={!!errors['channelID']}
                           >
                             {channelIDOptions.map((option) => (
                               <MenuItem key={option.value} value={option.value}>
@@ -346,16 +335,6 @@ export default function CollapsibleRow({
           </Collapse>
         </TableCell>
       </TableRow>
-
-      {/* <Snackbar
-        open={!!error}
-        autoHideDuration={6000}
-        onClose={() => setErrorMessage(null)}
-      >
-        <Alert onClose={() => setErrorMessage(null)} severity="error" sx={{ width: '100%' }}>
-          {error}
-        </Alert>
-      </Snackbar> */}
     </>
   );
 }

@@ -40,7 +40,7 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
   setSuccessMessage,
   setErrorMessage,
 }) => {
-  const [description, setDescription] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [isActive, setIsActive] = useState<boolean>(false);
   const [type, setType] = useState<number | string>('');
   const [channelID, setChannelID] = useState<number | undefined>(undefined);
@@ -53,9 +53,9 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
   const [tokenLength, setTokenLength] = useState<number | undefined>(undefined);
   const [generateLimitWithoutQuantityTimeSecond, setGenerateLimitWithoutQuantityTimeSecond] =
     useState<number | undefined>(undefined);
-  const [smsTemplate, setSmsTemplate] = useState<string>('');
+  const [smsTemplate, setSmsTemplate] = useState<string>('{{otpCode}}');
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+//   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
   const [tokenStringTypeID, serTokenStringTypeID] = useState<number | undefined>(undefined);
 
@@ -74,8 +74,8 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
     setErrors((prevErrors) => ({ ...prevErrors, [key]: errorMessage }));
 
     switch (key) {
-      case 'description':
-        setDescription(value);
+      case 'name':
+        setName(value);
         break;
       case 'channelID':
         setChannelID(value);
@@ -114,11 +114,11 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
 
   const handleSave = async () => {
     setLoading(true);
-    setError(null);
+    // setError(null);
 
     const validationErrors: { [key: string]: string | null } = {};
     Object.entries({
-      description,
+      name,
       channelID,
       tokenIdentityParams,
       expireTimeMinute,
@@ -142,7 +142,7 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
     }
 
     const requestBody = {
-      name: description,
+      name: name,
       channelID,
       tokenIdentityParams,
       expireTimeMinute,
@@ -188,7 +188,7 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
         throw new Error(errorData.message || 'Failed to create OTP method');
       }
     } catch (err: any) {
-      setError(err.message);
+    //   setError(err.message);
       setErrorMessage(err.message);
     } finally {
       setLoading(false);
@@ -201,7 +201,7 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
   }
 
   const resetForm = () => {
-    setDescription('');
+    setName('');
     setIsActive(false);
     setType('');
     setChannelID(undefined);
@@ -213,9 +213,9 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
     setSmsProductID(undefined);
     setTokenLength(undefined);
     setGenerateLimitWithoutQuantityTimeSecond(undefined);
-    setSmsTemplate('');
+    setSmsTemplate('{{otpCode}}');
     serTokenStringTypeID(undefined);
-    setError(null);
+    // setError(null);
     setErrors({});
   };
 
@@ -228,8 +228,8 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
           <Grid item xs={12}>
             <TextField
               label="Name"
-              value={description}
-              onChange={(e) => handleInputChange('description', e.target.value)}
+              value={name}
+              onChange={(e) => handleInputChange('name', e.target.value)}
               fullWidth
               margin="dense"
               required
@@ -241,8 +241,8 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
                 },
               }}
               variant="outlined"
-              error={!!errors['description']}
-              helperText={errors['description']}
+              error={!!errors['name']}
+              helperText={errors['name']}
             />
           </Grid>
 
