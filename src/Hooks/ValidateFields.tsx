@@ -69,7 +69,7 @@ import { RowData } from "../Types/RowDataType";
               }
               break;
           case 'tokenStringTypeID':
-            if (value === undefined || value === null) {
+            if (value === null) {
               return 'TokenStringTypeID is required';
             }
             break;

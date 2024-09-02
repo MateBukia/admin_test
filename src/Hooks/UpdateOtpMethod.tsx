@@ -17,7 +17,7 @@ export default function useUpdateOtp(
         isSendSms: updatedRow.isSendSms ? 1 : 0, 
       };
 
-      const response = await fetch(`http://10.25.25.6:3000/otp-method/update-otp-method/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_baseApiUrl}/otp-method/update-otp-method/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export default function useUpdateOtp(
         const jsonResponse = await response.json();
         successMessage = jsonResponse.message || 'OTP method updated successfully!';
       } else {
-        successMessage = await response.text(); // Handle plain text responses
+        successMessage = await response.text(); 
       }
   
       return successMessage;

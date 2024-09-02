@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useState, Dispatch, SetStateAction } from 'react';
 import {
   TableRow, TableCell, IconButton, Collapse, Box, Typography, Grid, TextField, Button, MenuItem, Select,
-  FormControl, InputLabel, FormHelperText, CircularProgress, Checkbox, FormControlLabel, Snackbar, Alert
-} from '@mui/material';
+  FormControl, InputLabel, FormHelperText, CircularProgress, Checkbox, FormControlLabel,} from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -14,6 +13,7 @@ import useGetTokenTypeList from '../../Hooks/GetTokenTypeList';
 import useGetChannelList from '../../Hooks/GetChannelList';
 import useUpdateOtp from '../../Hooks/UpdateOtpMethod';
 import validateFields from '../../Hooks/ValidateFields'
+import { editTrueStyle, editFalseStyle } from './component.style';
 
 interface CollapsibleRowProps {
   row: RowData;
@@ -148,17 +148,7 @@ export default function CollapsibleRow({
                     InputLabelProps={{ shrink: true, sx: { color: '#1976d2' } }}
                     InputProps={{
                       readOnly: !editing,
-                      sx: editing
-                        ? {
-                            backgroundColor: 'white',
-                            borderColor: '#1976d2',
-                          }
-                        : {
-                            backgroundColor: 'rgb(224 224 224 / 42%)',
-                            '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent' },
-                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent' },
-                            '& fieldset': { borderColor: 'transparent' },
-                          },
+                      sx: editing ? editTrueStyle : editFalseStyle,
                     }}
                     variant="outlined"
                     error={!!errors['name']}
@@ -171,7 +161,7 @@ export default function CollapsibleRow({
                   <Grid item xs={6} key={key}>
                     {editing ? (
                       key === 'tokenStringTypeID' ? (
-                        <FormControl fullWidth error={!!errors[key]}>
+                        <FormControl key={key} fullWidth error={!!errors[key]}>
                           <InputLabel shrink={true} sx={{ color: '#1976d2' }}>
                             Token String Type
                           </InputLabel>
@@ -190,7 +180,7 @@ export default function CollapsibleRow({
                           {errors[key] && <FormHelperText>{errors[key]}</FormHelperText>}
                         </FormControl>
                       ) : key === 'channelID' ? (
-                        <FormControl fullWidth error={!!errors[key]}>
+                        <FormControl key={key} fullWidth error={!!errors[key]}>
                           <InputLabel shrink={true} sx={{ color: '#1976d2' }}>
                             Channel ID
                           </InputLabel>
@@ -210,7 +200,7 @@ export default function CollapsibleRow({
                           {errors[key] && <FormHelperText>{errors[key]}</FormHelperText>}
                         </FormControl>
                       ) : key === 'isSendSms' ? (
-                        <FormControl fullWidth>
+                        <FormControl key={key} fullWidth>
                           <FormControlLabel
                             control={
                               <Checkbox
@@ -250,7 +240,7 @@ export default function CollapsibleRow({
                       )
                     ) : (
                       key === 'isSendSms' ? (
-                        <FormControl fullWidth>
+                        <FormControl key={key} fullWidth>
                           <FormControlLabel
                             control={
                               <Checkbox
@@ -276,12 +266,7 @@ export default function CollapsibleRow({
                           InputLabelProps={{ shrink: true, sx: { color: '#1976d2' } }}
                           InputProps={{
                             readOnly: true,
-                            sx: {
-                              backgroundColor: 'rgb(224 224 224 / 42%)',
-                              '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent' },
-                              '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent' },
-                              '& fieldset': { borderColor: 'transparent' },
-                            },
+                            sx: editFalseStyle,
                           }}
                           variant="outlined"
                         />
@@ -300,17 +285,7 @@ export default function CollapsibleRow({
                     InputLabelProps={{ shrink: true, sx: { color: '#1976d2' } }}
                     InputProps={{
                       readOnly: !editing,
-                      sx: editing
-                        ? {
-                            backgroundColor: 'white',
-                            borderColor: '#1976d2',
-                          }
-                        : {
-                            backgroundColor: 'rgb(224 224 224 / 42%)',
-                            '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent' },
-                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'transparent' },
-                            '& fieldset': { borderColor: 'transparent' },
-                          },
+                      sx: editing ? editTrueStyle : editFalseStyle,
                     }}
                     variant="outlined"
                     error={!!errors['smsTemplate']}
@@ -320,15 +295,18 @@ export default function CollapsibleRow({
               </Grid>
               {editing && (
                 <Box mt={2} display="flex" justifyContent="space-between" alignItems="center">
-                  {loading && <CircularProgress size={24} />}
-                  <Button
-                    variant="contained"
-                    onClick={handleSaveClick}
-                    disabled={Object.values(errors).some((error) => error !== null) || loading}
-                    sx={{ margin: '1em' }}
-                  >
-                    Save
-                  </Button>
+                  {loading ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      <Button
+                        variant="contained"
+                        onClick={handleSaveClick}
+                        disabled={Object.values(errors).some((error) => error !== null)}
+                        sx={{ margin: '1em' }}
+                      >
+                        Save
+                      </Button>
+                    )}
                 </Box>
               )}
             </Box>

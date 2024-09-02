@@ -7,7 +7,7 @@ const deleteOtpMethod = (
   setSuccessMessage: React.Dispatch<React.SetStateAction<string | null>>,
   setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
-  const url = `http://10.25.25.6:3000/otp-method/delete-otp-method/${id}`;
+  const url = `${process.env.REACT_APP_baseApiUrl}/otp-method/delete-otp-method/${id}`;
 
   fetch(url, {
     method: 'DELETE',

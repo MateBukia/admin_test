@@ -57,7 +57,7 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 //   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
-  const [tokenStringTypeID, serTokenStringTypeID] = useState<number | undefined>(undefined);
+  const [tokenStringTypeID, setTokenStringTypeID] = useState<number | undefined>(undefined);
 
   const channelIDOptions = useGetChannelList();
   const tokenStringTypeIDOptions = useGetTokenTypeList();
@@ -159,7 +159,7 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
 
     try {
       const response = await fetch(
-        'http://10.25.25.6:3000/otp-method/create-otp-method',
+        `${process.env.REACT_APP_baseApiUrl}/otp-method/create-otp-method`,
         {
           method: 'POST',
           headers: {
@@ -214,7 +214,7 @@ const CreateNewOtp: React.FC<CreateNewOtpProps> = ({
     setTokenLength(undefined);
     setGenerateLimitWithoutQuantityTimeSecond(undefined);
     setSmsTemplate('{{otpCode}}');
-    serTokenStringTypeID(undefined);
+    setTokenStringTypeID(undefined);
     // setError(null);
     setErrors({});
   };

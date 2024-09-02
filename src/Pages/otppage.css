@@ -13,4 +13,9 @@ header{
     width: auto !important;
     background-color:white !important;
 }
+.header{
+    display: flex;
+    flex-direction: row;
+    margin-left: 2em;
+}
 

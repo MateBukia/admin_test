@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import CollapsibleTable from '../Components/Table/table';
 import './otppage.css';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, IconButton, Stack, Snackbar, Alert } from '@mui/material';
@@ -90,12 +91,14 @@ const Otppage = () => {
       </Snackbar>
 
       <header>
-        <h1>ADD OTP</h1>
-        <Stack direction="row" spacing={3}>
-          <IconButton onClick={handleClickOpen}>
-            <AddCircleIcon sx={{ color: green[500], fontSize: 40 }} />
-          </IconButton>
-        </Stack>
+        <div className='header'>
+          <h1>ADD OTP</h1>
+          <Stack direction="row" spacing={3}>
+            <IconButton onClick={handleClickOpen}>
+              <AddCircleIcon sx={{ color: green[500], fontSize: 40 }} />
+            </IconButton>
+          </Stack>
+        </div>
       </header>
       <CollapsibleTable 
         rows={rows} 
