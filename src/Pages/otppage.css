@@ -17,5 +17,6 @@ header{
     display: flex;
     flex-direction: row;
     margin-left: 2em;
+    align-items: center;
 }
 
